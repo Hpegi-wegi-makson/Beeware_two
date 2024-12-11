@@ -19,12 +19,12 @@ class HelloWorld(toga.App):
         main_box = toga.Box(style=Pack(direction=COLUMN))
 
         # Верхний контейнер для полей ввода и кнопки Say Hello!
-        top_container = toga.Box(style=Pack(direction=COLUMN, padding=10))
+        top_container = toga.Box(style=Pack(direction=COLUMN, padding=25))
 
         # Добавляем метку и текстовое поле для ввода имени
-        name_label = toga.Label("Login:", style=Pack(padding=(0, 5)))
+        name_label = toga.Label("Login:", style=Pack(padding=(5, 5)))
         self.name_input = toga.TextInput(readonly=True, style=Pack(flex=1))
-        pasword_label = toga.Label("Pasword:", style=Pack(padding=(0, 5)))
+        pasword_label = toga.Label("Pasword:", style=Pack(padding=(-5, -0)))
         self.pasword_input = toga.TextInput(readonly=True, style=Pack(flex=1))  # Поле только для чтения
 
         # Горизонтальный бокс для размещения метки и поля ввода
@@ -34,11 +34,11 @@ class HelloWorld(toga.App):
 
         pasword_box = toga.Box(style=Pack(direction=ROW, padding=5))
         pasword_box.add( pasword_label)
-        pasword_box.add(self.name_input)
+        pasword_box.add( self.pasword_input)
 
         # Кнопка для вывода приветствия
         hello_button = toga.Button(
-            "go", on_press=self.say_hello, style=Pack(padding=5)
+            "go", on_press=self.say_hello, style=Pack(padding=50)
         )
 
         # Добавляем элементы в верхний контейнер
