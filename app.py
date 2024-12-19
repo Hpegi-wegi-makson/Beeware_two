@@ -12,7 +12,7 @@ class HelloWorld(toga.App):
         self.cursor = self.conn.cursor()
         
         # Создание таблиц, если их ещё нет
-        self.create_tables()
+        self.create_table()
 
         # Основной контейнер
         main_box = toga.Box(style=Pack(direction=COLUMN))
@@ -98,26 +98,17 @@ class HelloWorld(toga.App):
         self.active_field.value += widget.text
 
 
-    def create_tables(self):
-        # Создаем таблицу logs, если ее еще нет
+    def create_table(self):
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
-                input_text TEXT,
+                login TEXT,
+                password TEXT,
                 result TEXT
             );
         ''')
         self.conn.commit()
 
-    def log_entry(self, input_text, result):
-        # Логируем запись в базу данных
-        timestamp = str(datetime.datetime.now())
-        self.cursor.execute("INSERT INTO logs (timestamp, input_text, result) VALUES (?, ?, ?)", (timestamp, input_text, result))
-        self.conn.commit()
-        self.cursor.execute('SELECT timestamp, input_text, result FROM logs')
-        results = self.cursor.fetchall()
-        print(results)
 
 
 
@@ -139,9 +130,14 @@ class HelloWorld(toga.App):
                 greeting = 'GOOD job'
             else:
                 greeting = 'idiot'
-
-            # Логируем запись
-            self.log_entry(login, greeting)
+            def log_entry(self, login, password, result):
+                # Логируем запись в базу данных
+                timestamp = str(datetime.now())
+                self.cursor.execute(
+                    "INSERT INTO logs (timestamp, login, password, result) VALUES (?, ?, ?, ?)",
+                    (timestamp, login , password, result)
+                )
+            self.conn.commit()
 
             # Выводим сообщение
             dialog = toga.InfoDialog(title="Hi there!", message=greeting)
