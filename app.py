@@ -118,34 +118,36 @@ class HelloWorld(toga.App):
         if self.active_field.value:
             self.active_field.value = self.active_field.value[:-1]
 
-    def submit_form(self, widget):
-        # Обработчик события нажатия на кнопку Submit
-        login = self.username_input.value
-        password = self.password_input.value
-        print(f"Login: {login}, Password: {password}")
+        def submit_form(self, widget):
+            # Обработчик события нажатия на кнопку Submit
+            login = self.username_input.value
+            password = self.password_input.value
+            print(f"Login: {login}, Password: {password}")
 
-        # Проверяем, введен ли корректный логин
-        if login:
-            if login == 'maks':
-                greeting = 'GOOD job'
-            else:
-                greeting = 'idiot'
-            def log_entry(self, login, password, result):
+            # Проверяем, введен ли корректный логин
+            if login:
+                if login == 'maks':
+                    greeting = 'GOOD job'
+                else:
+                    greeting = 'idiot'
+
                 # Логируем запись в базу данных
                 timestamp = str(datetime.now())
                 self.cursor.execute(
-                    "INSERT INTO logs (timestamp, login, password, result) VALUES (?, ?, ?, ?)",
-                    (timestamp, login , password, result)
+                    "INSERT INTO logs (timestamp, login, password, greeting) VALUES (?, ?, ?, ?)",
+                    (timestamp, login, password, greeting)
                 )
-            self.conn.commit()
 
-            # Выводим сообщение
-            dialog = toga.InfoDialog(title="Hi there!", message=greeting)
-            dialog._show(self.main_window)
-        else:
-            # Ошибка, если логин пустой
-            dialog = toga.InfoDialog(title="Error", message="Please enter your login!")
-            dialog._show(self.main_window)
+                self.conn.commit()
+
+                # Выводим сообщение
+                dialog = toga.InfoDialog(title="Hi there!", message=greeting)
+                dialog._show(self.main_window)
+            else:
+                # Ошибка, если логин пустой
+                dialog = toga.InfoDialog(title="Error", message="Please enter your login!")
+                dialog._show(self.main_window)
+
 
     def on_usernamee_input_changed(self, widget):
         self.username_input.on_gain_focus = lambda w: self.focus_change_handler(w, True)
