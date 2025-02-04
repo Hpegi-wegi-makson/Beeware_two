@@ -18,21 +18,32 @@ class HelloWorld(toga.App):
 
 
         self.keyboard_container = toga.Box(style=Pack(direction=COLUMN, padding=(150, 1)))
+        self.keyboard_container_qwe = toga.Box(style=Pack(direction=COLUMN, padding=(150, 1)))
         self.generate_keyboard()
+        self.generate_keyboard_qwe()
         self.main_window.content = self.main_box
         self.main_window.show()
         self.main_box.add(self.start_button)
         self.username_input.on_gain_focus = self.on_username_focus
         self.password_input.on_gain_focus = self.on_password_focus
+
+        self.username_input_login.on_gain_focus = self.on_username_focus_qwe
+        self.password_input_login.on_gain_focus = self.on_password_focus_qwe
         # Устанавливаем начальное активное поле
         self.active_field = self.username_input
+        self.active_field_qwe = self.username_input
 
     def show_keyboard(self):
         self.main_box.add(self.keyboard_container)
+    def show_keyboard_qwe(self):
+        self.main_box.add(self.keyboard_container_qwe)
 
     def hide_keyboard(self):
         if self.keyboard_container in self.main_box.children:
             self.main_box.remove(self.keyboard_container)
+    def hide_keyboard(self):
+        if self.keyboard_container_qwe in self.main_box.children:
+            self.main_box.remove(self.keyboard_container_qwe)
 
     def generate_keyboard(self):
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -62,6 +73,32 @@ class HelloWorld(toga.App):
     def on_password_focus(self, widget):
         self.active_field = self.password_input
 
+    def generate_keyboard_qwe(self):
+        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        buttons_per_row = 8
+        for row_index in range(len(alphabet) // buttons_per_row + 1):
+            row_box = toga.Box(style=Pack(direction=ROW))
+            for col_index in range(min(buttons_per_row, len(alphabet) - row_index * buttons_per_row)):
+                letter = alphabet[row_index * buttons_per_row + col_index]
+                button = toga.Button(
+                    letter,
+                    on_press=self.button_pressed_qwe,
+                    style=Pack(width=25, height=25,)
+                )
+                row_box.add(button)
+            self.keyboard_container_qwe.add(row_box)
+    def backspace_pressed_qwe(self, widget):
+        if self.active_field_qwe.value:
+            self.active_field_qwe.value = self.active_field_qwe.value[:-1]
+
+    def button_pressed_qwe(self, widget=None):
+        self.active_field_qwe.value += widget.text
+
+    def on_username_focus_qwe(self, widget):
+        self.active_field_qwe = self.username_input_login
+
+    def on_password_focus_qwe(self, widget):
+        self.active_field_qwe = self.password_input_login
 
 
     def create_element_interface(self):
@@ -94,10 +131,22 @@ class HelloWorld(toga.App):
     def sqsl(self):
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS User (
+        id_account INTEGER PRIMARY KEY AUTOINCREMENT
         timestamp TEXT,
         login TEXT,
         password TEXT,
         result TEXT
+        )
+        ''')
+        self.conn.commit()
+    
+    def account(self):
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS account (
+        id_account INTEGER PRIMARY KEY
+        timestamp TEXT,
+        login TEXT,
+        password TEXT
         )
         ''')
         self.conn.commit()
@@ -128,6 +177,7 @@ class HelloWorld(toga.App):
         self.main_box.remove(self.password_input_login)
         self.main_box.remove(self.password_label_login)
         self.main_box.remove(self.log_button)
+        self.main_box.remove(self.keyboard_container)
 
         self.hide_keyboard()
 
@@ -151,6 +201,7 @@ class HelloWorld(toga.App):
         self.main_box.add(self.password_label_login)
         self.main_box.add(self.back_button)
         self.main_box.add(self.log_button)
+        self.show_keyboard_qwe()
         self.main_box.remove(self.scrin_button)
         self.main_box.remove(self.login_button)
         
@@ -201,7 +252,7 @@ class HelloWorld(toga.App):
         )
 
         self.conn.commit()
-        
+    # def login_sql:
 
 
 
