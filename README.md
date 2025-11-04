@@ -1,6 +1,9 @@
 
 <div align="center">
-  
+  <img width="634" height="506" alt="Снимок экрана 2025-11-05 012314" src="https://github.com/user-attachments/assets/d68e5bc7-1f0a-4e57-8ff7-fbeb05897980" /><img width="643" height="502" alt="Снимок экрана 2025-11-05 012300" src="https://github.com/user-attachments/assets/d713015a-12c7-44ad-a3b7-1ff81a8ae532" /><img width="636" height="499" alt="Снимок экрана 2025-11-05 012244" src="https://github.com/user-attachments/assets/14f28512-d036-499e-8221-3e896eff43b0" />
+
+
+
 🔐 BeeWare Authentication App  
 
 A simple and elegant desktop application for user authentication
